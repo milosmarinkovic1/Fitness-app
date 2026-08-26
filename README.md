@@ -52,7 +52,7 @@ cd fitness-app
 docker compose up -d
 
 # Pokreni backend
-./mvnw spring-boot:runng-boot:run
+./mvnw spring-boot:run
 ```
 
 ### Frontend
