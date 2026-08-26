@@ -1,4 +1,4 @@
-# FitTrack — Fitness Tracking Web Application
+#Fitness Tracking Web Application
 
 A full-stack fitness tracking application built with Spring Boot and Vue 3.
 
