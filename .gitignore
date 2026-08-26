@@ -1,0 +1,24 @@
+# Java / Spring Boot
+fitness-app/target/
+fitness-app/.mvn/
+*.class
+*.jar
+
+# Node / Vue
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+*.env
+application-local.properties
+
+application.properties

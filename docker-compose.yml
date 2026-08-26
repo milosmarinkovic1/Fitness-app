@@ -1,0 +1,41 @@
+
+services:   #Početak liste svih programa koje Docker treba da pokrene.
+  # 1. POSTGRESQL SERVER
+  postgres:
+    image: postgres:15  #zvanični PostgreSQL image, verziju 15.
+      # Docker ga preuzima automatski ako ga nema lokalno.
+    container_name: fitness_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fitness_db
+    ports:
+      - "5432:5432"   #lokalni_port:port_u_kontejneru !!!
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      #čuva podatke baze na tvom računaru. Bez ovoga,svaki put kad restartaješ Docker, baza se briše.
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      # ako staviš svoju SQL skriptu kao init.sql u isti folder kao docker-compose.yml,
+      # baza će se automatski kreirati sa svim tabelama.
+
+
+  # 2. PGADMIN (Vizuelni alat)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres # nema smisla pokretati vizuelni alat pre same baze.
+
+#pgAdmin servis. Port 5050 na tvom računaru → port 80 unutar kontejnera.
+#Kada Docker krene, otvoriš browser i ideš na http://localhost:5050 — tamo je pgAdmin.
+
+
+volumes:
+  postgres_data:
+#Ovde registruješ volume koji si koristio gore.
+#Docker kreira fizičku fasciklu na tvom sistemu i vezuje je za kontejner.
