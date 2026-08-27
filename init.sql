@@ -1,5 +1,5 @@
 -- =====================================================================
--- PostgreSQL DDL za FITNES APLIKACIJU
+-- PostgreSQL DDL 
 -- =====================================================================
 -- NAPOMENA ZA SPRING BOOT:
 -- spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -9,10 +9,8 @@
 CREATE TYPE user_status AS ENUM ('ACTIVE', 'LOCKED', 'PENDING');
 
 -- =====================================================================
--- KREIRANJE TABELA
--- =====================================================================
 
--- 1. KORISNICI
+--KORISNICI
 CREATE TABLE users (
     user_id           SERIAL PRIMARY KEY,
     full_name         VARCHAR(100) NOT NULL,
@@ -25,13 +23,13 @@ CREATE TABLE users (
     registration_date DATE DEFAULT CURRENT_DATE
 );
 
--- 2. KATEGORIJE
+--KATEGORIJE
 CREATE TABLE categories (
     category_id       SERIAL PRIMARY KEY,
     name              VARCHAR(50) NOT NULL UNIQUE
 );
 
--- 3. VEŽBE
+--VEŽBE
 CREATE TABLE exercises (
     exercise_id       SERIAL PRIMARY KEY,
     name              VARCHAR(100) NOT NULL UNIQUE,
@@ -39,7 +37,7 @@ CREATE TABLE exercises (
     category_id       INTEGER NOT NULL REFERENCES categories(category_id) ON DELETE RESTRICT
 );
 
--- 4. ŠABLONI TRENINGA (PLANOVI)
+--ŠABLONI TRENINGA (PLANOVI)
 CREATE TABLE plans (
     plan_id           SERIAL PRIMARY KEY,
     user_id           INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
@@ -48,7 +46,7 @@ CREATE TABLE plans (
     created_date      DATE DEFAULT CURRENT_DATE
 );
 
--- 5. VEŽBE U OKVIRU ŠABLONA
+--VEŽBE U OKVIRU ŠABLONA
 CREATE TABLE plan_exercises (
     plan_exercise_id  SERIAL PRIMARY KEY,
     plan_id           INTEGER NOT NULL REFERENCES plans(plan_id) ON DELETE CASCADE,
@@ -62,7 +60,7 @@ CREATE TABLE plan_exercises (
     CONSTRAINT unique_exercise_per_plan UNIQUE (plan_id, exercise_id)
 );
 
--- 6. REALIZOVANI TRENINZI
+--REALIZOVANI TRENINZI
 CREATE TABLE workouts (
     workout_id        SERIAL PRIMARY KEY,
     user_id           INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
@@ -73,7 +71,7 @@ CREATE TABLE workouts (
     note              VARCHAR(500)
 );
 
--- 7. SERIJE (UNUTAR TRENINGA)
+--SERIJE (UNUTAR TRENINGA)
 CREATE TABLE sets (
     set_id            SERIAL PRIMARY KEY,
     workout_id        INTEGER NOT NULL REFERENCES workouts(workout_id) ON DELETE CASCADE,
@@ -84,7 +82,7 @@ CREATE TABLE sets (
     CONSTRAINT unique_set_per_workout_exercise UNIQUE (workout_id, exercise_id, set_number)
 );
 
--- 8. MERENJA TELA
+--MERENJA TELA
 CREATE TABLE body_measurements (
     measurement_id    SERIAL PRIMARY KEY,
     user_id           INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
@@ -102,9 +100,7 @@ CREATE TABLE body_measurements (
 );
 
 -- =====================================================================
--- INDEKSI (Samo oni koji su zaista potrebni)
--- =====================================================================
-
+-- INDEKSI 
 CREATE INDEX idx_exercises_category ON exercises(category_id);
 CREATE INDEX idx_plans_user ON plans(user_id);
 CREATE INDEX idx_plan_exercises_exercise ON plan_exercises(exercise_id);
@@ -114,8 +110,6 @@ CREATE INDEX idx_workouts_date ON workouts(workout_date);
 CREATE INDEX idx_sets_exercise ON sets(exercise_id);
 CREATE INDEX idx_body_measurements_date ON body_measurements(measure_date);
 
--- =====================================================================
--- POČETNI PODACI (KATEGORIJE + VEŽBE)
 -- =====================================================================
 
 INSERT INTO categories (name) VALUES
