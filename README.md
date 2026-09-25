@@ -70,6 +70,8 @@ Frontend runs on `http://localhost:5173`
 8 tables: `users`, `categories`, `exercises`, `plans`, `plan_exercises`, `workouts`, `sets`, `body_measurements`
 
 ## Screenshots
+<img width="4575" height="6993" alt="diagram" src="https://github.com/user-attachments/assets/d3aeafba-e6aa-49b2-8053-34f920e80042" />
+
 
 <img width="846" height="855" alt="Screenshot 2026-08-26 185148" src="https://github.com/user-attachments/assets/825f6f09-1c22-45ec-9190-057c33a2f7b0" />
 <img width="755" height="777" alt="Screenshot 2026-08-26 185313" src="https://github.com/user-attachments/assets/9450db74-b3e4-4852-afb5-8aa56ac1027e" />
